@@ -32,14 +32,651 @@
 
 #### 模块一：SQL翻译官 🐱
 **入口位置**：首页导航 + 底部固定入口
-**功能描述**：用户输入任意SQL语句，小猫"喵喵"用生动有趣的语言解释其含义，帮助小白真正理解每一条SQL在做什么。
+**功能描述**：SQL翻译官包含两个子功能：
+1. **从零到一学习**（新增）：为SQL零基础小白打造的系统学习路径，用最通俗易懂的语言和可爱的小猫比喻讲解每个知识点，每节配有实际例子和练习题
+2. **SQL翻译助手**：用户输入任意SQL语句，小猫"喵喵"用生动有趣的语言解释其含义，帮助用户理解每一条SQL在做什么
 
-**核心特性**：
-- 支持输入框输入SQL语句
-- 一键美化/格式化SQL
-- "喵喵"逐词解析，用比喻和例子帮助理解
-- 相关知识点卡片推荐
-- 一键收藏到学习笔记
+**学习路径设计**：
+采用游戏闯关模式，学习就像打游戏升级一样有趣！每完成一章学习，解锁下一章，获得成就感喵～
+
+---
+
+##### 🔰 从零到一学习模块（次级功能）
+
+###### 第1章：初识数据库 - 猫咪图书馆的故事 🏠
+
+**概念讲解**：
+喵～欢迎来到喵SQL的世界！首先我们来认识一下什么是数据库吧！
+
+想象你有一个超级大的书架📚，上面放满了各种猫咪的信息。这个书架就是**数据库**，而每一本小册子就是**表（Table）**。
+
+比如我们有一本叫 `cats` 的小册子，里面记录着每只小猫咪的名字、年龄、喜欢的食物等信息：
+
+```
+cats 表（猫咪信息表）
+┌────────────┬─────┬────────────┐
+│ name       │ age │ favorite   │
+├────────────┼─────┼────────────┤
+│ 橘喵       │ 3   │ 鱼干       │
+│ 布偶       │ 2   │ 猫罐头     │
+│ 狸花       │ 5   │ 小鱼       │
+└────────────┴─────┴────────────┘
+```
+
+**生活比喻**：
+- **数据库**就像是一个城市，里面有很多栋楼（表）
+- **表**就像是一个楼层，里面有很多房间（每行数据）
+- **字段**（列）就像是房间的不同属性，比如面积、用途、价格
+- **记录**（行）就是具体的某一个房间
+
+**本章练习**：
+🎯 **任务**：假设你有一个 `students` 学生信息表，包含 name（姓名）、age（年龄）、grade（年级）字段，请思考：这个表里"三年级"、"10岁"、"小明"分别是什么？
+
+✅ **答案解析**：
+- "三年级" → grade字段的一个可能的值
+- "10岁" → age字段的一个可能的值
+- "小明" → name字段的一个可能的值，也是某一行记录的名字
+
+---
+
+###### 第2章：SELECT初体验 - 挑选你想要的猫咪 🐾
+
+**概念讲解**：
+SELECT 是SQL中最最最重要的命令了！它的意思就是"挑选"，从表中挑选出我们想要的数据。
+
+**最基础的查询**：
+```sql
+SELECT * FROM cats;
+```
+喵喵解释："这条命令是说，从 cats 表里，把所有的猫咪信息都给我找出来！"
+
+星号 `*` 代表"所有字段"，FROM 后面跟的是表名。
+
+**只查询部分字段**：
+```sql
+SELECT name, age FROM cats;
+```
+喵喵解释："这条命令是说，从 cats 表里，我只需要猫咪的名字和年龄，其他的不用告诉我喵～"
+
+**添加筛选条件 WHERE**：
+```sql
+SELECT name FROM cats WHERE age > 3;
+```
+喵喵解释："小鱼干！这条是说，从 cats 表里，找出年龄大于3岁的猫咪，只给我看它们的姓名！"
+
+**排序展示 ORDER BY**：
+```sql
+SELECT name, age FROM cats ORDER BY age DESC;
+```
+喵喵解释："这条是说，从 cats 表里，把猫咪按年龄从大到小排个序，然后告诉我名字和年龄喵～"
+
+- ASC = 从小到大（升序）
+- DESC = 从大到小（降序）
+
+**限制数量 LIMIT**：
+```sql
+SELECT name FROM cats ORDER BY age DESC LIMIT 2;
+```
+喵喵解释："这条是说，找出最年长的2只猫咪的名字！"
+
+**生活比喻**：
+SELECT 就像是你去超市买东西：
+- `SELECT *` = 买下整个货架的所有东西
+- `SELECT name, price` = 只买名字和价格标签
+- `WHERE price < 100` = 只要100元以下的
+- `ORDER BY price ASC` = 按价格从低到高排队
+- `LIMIT 5` = 只买前5个
+
+**本章练习**：
+🎯 **任务**：从 `products` 商品表中，查询价格（price）低于50元的产品名称（product_name），按价格从低到高排序，只显示前10个。
+
+```sql
+-- 你的答案：
+SELECT ________ FROM ________ WHERE ________ ORDER BY ________ ________ LIMIT ________;
+```
+
+✅ **正确答案**：
+```sql
+SELECT product_name FROM products WHERE price < 50 ORDER BY price ASC LIMIT 10;
+```
+
+---
+
+###### 第3章：WHERE详解 - 精准筛选的艺术 🔍
+
+**概念讲解**：
+WHERE 是用来"筛选"的命令，就像你用筛子筛面粉一样，只留下符合条件的东西。
+
+**基础比较运算符**：
+
+| 运算符 | 含义 | 举例 |
+|--------|------|------|
+| `=` | 等于 | `WHERE age = 3` |
+| `!=` 或 `<>` | 不等于 | `WHERE age != 3` |
+| `>` | 大于 | `WHERE age > 3` |
+| `<` | 小于 | `WHERE age < 3` |
+| `>=` | 大于等于 | `WHERE age >= 3` |
+| `<=` | 小于等于 | `WHERE age <= 3` |
+
+**多重条件 AND / OR**：
+```sql
+-- AND：所有条件都要满足
+SELECT * FROM cats WHERE age > 2 AND favorite = '鱼干';
+```
+喵喵解释："找出年龄大于2岁、且喜欢鱼干的猫咪喵～"
+
+```sql
+-- OR：满足任意一个条件就行
+SELECT * FROM cats WHERE age < 2 OR age > 5;
+```
+喵喵解释："找出年龄小于2岁、或者年龄大于5岁的猫咪喵～"
+
+**模糊匹配 LIKE**：
+```sql
+-- % 代表任意多个字符
+SELECT * FROM cats WHERE name LIKE '橘%';
+```
+喵喵解释："找出名字以'橘'开头的所有猫咪喵～（比如橘喵、橘白、橘虎）"
+
+```sql
+-- _ 代表任意单个字符
+SELECT * FROM cats WHERE name LIKE '橘_';
+```
+喵喵解释："找出名字是'橘'开头、后面只有一个字的所有猫咪喵～（比如橘喵）"
+
+**范围查询 BETWEEN**：
+```sql
+SELECT * FROM cats WHERE age BETWEEN 2 AND 5;
+```
+喵喵解释："找出年龄在2到5岁之间的猫咪喵～（包括2和5）"
+
+**枚举查询 IN**：
+```sql
+SELECT * FROM cats WHERE favorite IN ('鱼干', '猫罐头', '小鱼');
+```
+喵喵解释："找出喜欢吃鱼干、或者猫罐头、或者小鱼的猫咪喵～"
+
+**排除空值 IS NULL / IS NOT NULL**：
+```sql
+SELECT * FROM cats WHERE favorite IS NOT NULL;
+```
+喵喵解释："找出已有喜欢的食物记录的猫咪喵～"
+
+**生活比喻**：
+WHERE 就像是你在租房软件上筛选房子：
+- `WHERE price < 3000` = 价格低于3000
+- `WHERE area > 30 AND area < 100` = 面积在30到100平米
+- `WHERE location LIKE '%地铁%'` = 位置包含"地铁"
+- `WHERE price IN (2000, 2500, 3000)` = 价格是2000、2500或3000
+
+**本章练习**：
+🎯 **任务**：从 `orders` 订单表中，查询2024年1月1日之后下单的、订单金额（amount）在100到1000元之间的、已支付的（status = 'paid'）所有订单。
+
+```sql
+-- 你的答案：
+SELECT * FROM ________ 
+WHERE ________ > '2024-01-01' 
+AND ________ BETWEEN ________ AND ________ 
+AND ________ = '________';
+```
+
+✅ **正确答案**：
+```sql
+SELECT * FROM orders 
+WHERE order_date > '2024-01-01' 
+AND amount BETWEEN 100 AND 1000 
+AND status = 'paid';
+```
+
+---
+
+###### 第4章：聚合函数 - 统计小能手上线 📊
+
+**概念讲解**：
+聚合函数就是"汇总统计"的工具，可以帮你算总数、平均值、最大最小值等。就像你数一数钱包里有多少钱一样喵～
+
+**六大聚合函数**：
+
+| 函数 | 作用 | 举例 |
+|------|------|------|
+| `COUNT()` | 计数 | `SELECT COUNT(*) FROM cats` |
+| `SUM()` | 求和 | `SELECT SUM(price) FROM products` |
+| `AVG()` | 求平均 | `SELECT AVG(age) FROM cats` |
+| `MAX()` | 最大值 | `SELECT MAX(price) FROM products` |
+| `MIN()` | 最小值 | `SELECT MIN(price) FROM products` |
+| `GROUP_CONCAT()` | 拼接 | `SELECT GROUP_CONCAT(name) FROM cats` |
+
+**COUNT 计数**：
+```sql
+SELECT COUNT(*) FROM cats;
+```
+喵喵解释："告诉我表里一共有多少只猫咪喵～"
+
+```sql
+SELECT COUNT(*) FROM cats WHERE age > 3;
+```
+喵喵解释："告诉我年龄大于3岁的猫咪有多少只喵～"
+
+**SUM 求和**：
+```sql
+SELECT SUM(price) FROM orders WHERE status = 'paid';
+```
+喵喵解释："算算所有已支付订单的总金额是多少喵～"
+
+**AVG 求平均**：
+```sql
+SELECT AVG(age) FROM cats;
+```
+喵喵解释："所有猫咪的平均年龄是多少岁喵～"
+
+**MAX / MIN 最值**：
+```sql
+SELECT MAX(price), MIN(price) FROM products;
+```
+喵喵解释："告诉我最贵的商品价格和最便宜的商品价格喵～"
+
+**DISTINCT 去重**：
+```sql
+SELECT COUNT(DISTINCT category) FROM products;
+```
+喵喵解释："告诉我商品一共有多少个不同的类别喵～（重复的只算一次）"
+
+**生活比喻**：
+聚合函数就像是你在月底看账单：
+- `COUNT(*)` = 这个月一共买了多少次东西
+- `SUM(amount)` = 这个月一共花了多少钱
+- `AVG(amount)` = 每次平均花多少钱
+- `MAX(amount)` = 单笔最大花了多少
+- `MIN(amount)` = 单笔最少花了多少
+
+**本章练习**：
+🎯 **任务**：从 `employees` 员工表中，计算：
+1. 公司一共有多少员工
+2. 员工平均工资（salary）是多少
+3. 最高工资和最低工资分别是多少
+
+```sql
+-- 你的答案：
+SELECT 
+    COUNT(*) AS ________,
+    AVG(________) AS avg_salary,
+    MAX(________) AS max_salary,
+    MIN(________) AS min_salary
+FROM ________;
+```
+
+✅ **正确答案**：
+```sql
+SELECT 
+    COUNT(*) AS total_employees,
+    AVG(salary) AS avg_salary,
+    MAX(salary) AS max_salary,
+    MIN(salary) AS min_salary
+FROM employees;
+```
+
+---
+
+###### 第5章：GROUP BY分组 - 分类统计的艺术 🎯
+
+**概念讲解**：
+GROUP BY 的意思是"按什么分组"，就像你把衣柜里的衣服按季节分类、按颜色分类一样。分组后，每一组都会产生一个统计结果。
+
+**基础分组查询**：
+```sql
+SELECT category, COUNT(*) FROM products GROUP BY category;
+```
+喵喵解释："按商品类别分组，告诉我每个类别分别有多少个商品喵～"
+
+**分组+聚合**：
+```sql
+SELECT 
+    category, 
+    COUNT(*) as product_count,
+    AVG(price) as avg_price,
+    MAX(price) as max_price
+FROM products 
+GROUP BY category;
+```
+喵喵解释："按类别分组，告诉我每个类别有多少商品、平均价格、最高价格喵～"
+
+**多字段分组**：
+```sql
+SELECT category, color, COUNT(*) FROM products GROUP BY category, color;
+```
+喵喵解释："先按类别分组，再在每个类别里按颜色分组，告诉我每个组合有多少喵～"
+
+**生活比喻**：
+GROUP BY 就像是你在整理书架：
+- 把书先按作者分组 = `GROUP BY author`
+- 每组有多少本书 = `COUNT(*)`
+- 每组书的平均厚度 = `AVG(thickness)`
+- 每组最厚的一本 = `MAX(thickness)`
+
+**本章练习**：
+🎯 **任务**：从 `orders` 订单表中，按订单状态（status）分组，统计每个状态下的订单数量和平均订单金额（amount）。
+
+```sql
+-- 你的答案：
+SELECT 
+    status,
+    COUNT(*) AS ________,
+    AVG(________) AS avg_amount
+FROM orders
+GROUP BY ________;
+```
+
+✅ **正确答案**：
+```sql
+SELECT 
+    status,
+    COUNT(*) AS order_count,
+    AVG(amount) AS avg_amount
+FROM orders
+GROUP BY status;
+```
+
+---
+
+###### 第6章：HAVING筛选 - 分组后的精准过滤 🎯
+
+**概念讲解**：
+HAVING 是用来筛选"分组后的结果"的，就像你先用筛子筛选，再用放大镜仔细看。HAVING 总是和 GROUP BY 一起用！
+
+**重要规则**：
+- WHERE 是在分组之前筛选（筛选原始数据）
+- HAVING 是在分组之后筛选（筛选分组结果）
+
+```sql
+-- WHERE vs HAVING 的区别
+SELECT category, COUNT(*) 
+FROM products 
+WHERE price > 100  -- 先筛选价格大于100的商品
+GROUP BY category
+HAVING COUNT(*) > 5;  -- 再筛选数量大于5的组
+```
+
+喵喵解释：
+"小鱼干！这条是说：
+1. 先从所有商品里，把价格大于100的挑出来
+2. 然后按类别分组
+3. 最后只看那些商品数量大于5个的类别喵～"
+
+**使用别名简化**：
+```sql
+SELECT category, COUNT(*) as cnt
+FROM products
+GROUP BY category
+HAVING cnt > 5;
+```
+
+**HAVING 常用场景**：
+- 筛选数量大于N的分组
+- 筛选平均值大于X的分组
+- 筛选总和大于Y的分组
+
+**生活比喻**：
+WHERE 和 HAVING 的区别：
+- WHERE = 进教室之前先点名，只要认真听讲的同学
+- HAVING = 老师点评时，只表扬平均分大于90分的班级
+
+**常见错误**：
+❌ `WHERE COUNT(*) > 5` - 错误！WHERE不能筛选聚合结果
+✅ `HAVING COUNT(*) > 5` - 正确！HAVING专门筛选聚合结果
+
+**本章练习**：
+🎯 **任务**：从 `orders` 订单表中，找出订单数量超过10笔的所有客户（customer_id），并显示每个客户的订单数量。
+
+```sql
+-- 你的答案：
+SELECT 
+    customer_id,
+    COUNT(*) AS order_count
+FROM orders
+GROUP BY ________
+HAVING ________ > ________;
+```
+
+✅ **正确答案**：
+```sql
+SELECT 
+    customer_id,
+    COUNT(*) AS order_count
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 10;
+```
+
+---
+
+###### 第7章：JOIN连接 - 跨表查询的艺术 🔗
+
+**概念讲解**：
+JOIN 就像是你有两本电话本，一本有姓名和电话，另一本有姓名和地址，JOIN就是把它们合并成一本完整的通讯录！
+
+**准备两个表来理解**：
+
+```sql
+-- 用户表 users
+┌────┬────────┐
+│ id │ name   │
+├────┼────────┤
+│ 1  │ 小明   │
+│ 2  │ 小红   │
+│ 3  │ 小刚   │
+└────┴────────┘
+
+-- 订单表 orders
+┌────┬──────────┬────────┐
+│ id │ user_id  │ amount │
+├────┼──────────┼────────┤
+│ 1  │ 1        │ 100    │
+│ 2  │ 1        │ 200    │
+│ 3  │ 2        │ 150    │
+│ 4  │ 4        │ 300    │
+└────┴────────┘
+```
+
+**INNER JOIN 内连接**：
+```sql
+SELECT users.name, orders.amount
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;
+```
+喵喵解释："把两个表连接起来，只保留两边都有对应记录的数据喵～"
+
+结果：
+```
+┌────────┬────────┐
+│ name   │ amount │
+├────────┼────────┤
+│ 小明   │ 100    │
+│ 小明   │ 200    │
+│ 小红   │ 150    │
+└────────┴────────┘
+```
+（小刚和user_id=4都没有显示，因为他们没有对应记录喵～）
+
+**LEFT JOIN 左连接**：
+```sql
+SELECT users.name, orders.amount
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id;
+```
+喵喵解释："以左边的表（users）为主，即使没有对应记录也要保留喵～"
+
+结果：
+```
+┌────────┬────────┐
+│ name   │ amount │
+├────────┼────────┤
+│ 小明   │ 100    │
+│ 小明   │ 200    │
+│ 小红   │ 150    │
+│ 小刚   │ NULL   │
+└────────┴────────┘
+```
+（小刚没有订单，但还是显示出来了，只是订单金额是NULL喵～）
+
+**多表连接**：
+```sql
+SELECT 
+    users.name,
+    orders.amount,
+    products.product_name
+FROM users
+INNER JOIN orders ON users.id = orders.user_id
+INNER JOIN products ON orders.product_id = products.id;
+```
+
+**生活比喻**：
+JOIN 的三种类型：
+- INNER JOIN = 两个人互相认识才牵手
+- LEFT JOIN = 不管对方认不认识你，你都要牵
+- RIGHT JOIN = 不管你认不认识对方，对方都要牵
+
+**本章练习**：
+🎯 **任务**：有三张表：
+- `students` (id, name, class_id)
+- `classes` (id, class_name, teacher)
+- `scores` (id, student_id, score)
+
+请查询每个学生姓名、所在班级和总成绩。
+
+```sql
+-- 你的答案：
+SELECT 
+    s.name,
+    c.class_name,
+    ________(sc.score) as total_score
+FROM students s
+INNER JOIN classes c ON s.________ = c.id
+LEFT JOIN scores sc ON s.id = sc.________
+GROUP BY s.id, c.class_name;
+```
+
+✅ **正确答案**：
+```sql
+SELECT 
+    s.name,
+    c.class_name,
+    SUM(sc.score) as total_score
+FROM students s
+INNER JOIN classes c ON s.class_id = c.id
+LEFT JOIN scores sc ON s.id = sc.student_id
+GROUP BY s.id, c.class_name;
+```
+
+---
+
+###### 第8章：子查询 - SQL中的俄罗斯套娃 🎁
+
+**概念讲解**：
+子查询就是"查询里面再套查询"，就像俄罗斯套娃一样，一个查询里面有另一个查询。子查询让SQL变得更加强大！
+
+**子查询的位置**：
+1. 在 WHERE 后面
+2. 在 FROM 后面（作为临时表）
+3. 在 SELECT 后面（作为字段）
+
+**WHERE 中的子查询**：
+```sql
+-- 找出比平均年龄大的猫咪
+SELECT * FROM cats WHERE age > (SELECT AVG(age) FROM cats);
+```
+喵喵解释："先算出所有猫咪的平均年龄，然后找出年龄大于平均值的猫咪喵～"
+
+```sql
+-- 找出购买过商品的用户
+SELECT * FROM users 
+WHERE id IN (SELECT DISTINCT user_id FROM orders);
+```
+喵喵解释："先找出所有有过购买记录的用户ID，然后在用户表里找出这些用户喵～"
+
+**FROM 中的子查询**：
+```sql
+SELECT category, avg_price
+FROM (
+    SELECT category, AVG(price) as avg_price
+    FROM products
+    GROUP BY category
+) as category_stats
+WHERE avg_price > 100;
+```
+喵喵解释："先按类别算出平均价格，然后从结果里筛选平均价格大于100的类别喵～"
+
+**SELECT 中的子查询**：
+```sql
+SELECT 
+    name,
+    age,
+    (SELECT COUNT(*) FROM orders WHERE user_id = users.id) as order_count
+FROM users;
+```
+喵喵解释："在用户表里加一列，显示每个用户的订单数量喵～"
+
+**EXISTS 和 NOT EXISTS**：
+```sql
+-- 找出有订单的用户
+SELECT * FROM users WHERE EXISTS (
+    SELECT 1 FROM orders WHERE orders.user_id = users.id
+);
+```
+喵喵解释："找出那些在订单表里有记录的用户喵～"
+
+**生活比喻**：
+子查询就像是你问朋友问题：
+- "今天谁请我吃饭了？"（普通查询）
+- "今天谁请我吃饭了？而且他还比我有钱"（WHERE子查询）
+- "你们班平均分多少？"（聚合子查询）
+
+**本章练习**：
+🎯 **任务**：从 `products` 表中，找出价格高于所有商品平均价格的商品名称和价格。
+
+```sql
+-- 你的答案：
+SELECT product_name, price
+FROM products
+WHERE price > (
+    SELECT ________(price)
+    FROM ________
+);
+```
+
+✅ **正确答案**：
+```sql
+SELECT product_name, price
+FROM products
+WHERE price > (
+    SELECT AVG(price)
+    FROM products
+);
+```
+
+---
+
+##### 学习进度展示 📈
+
+**进度条设计**：
+- 每个章节都有完成按钮
+- 完成章节后显示✅绿色对勾
+- 当前章节高亮显示
+- 整体进度百分比展示
+- 解锁下一章节的成就感动画
+
+**成就系统**：
+- 🐣 "初学者" - 完成第1章
+- 🐱 "SQL小喵" - 完成前3章
+- 🐯 "SQL达人" - 完成前5章
+- 🦁 "SQL大师" - 完成全部8章
+- 🎯 "练习之星" - 完成所有练习题
+
+**本章练习说明**：
+每章配套的练习题采用即时反馈机制：
+- 提交答案后立即显示对错
+- 答错时显示详细解析
+- 答对时显示喵喵的鼓励语
+- 可重复练习直到掌握
 
 **示例解释**：
 ```
@@ -52,6 +689,13 @@
   3. 只需要名字和年龄两个信息哦～
 喵～学会了没有呀？"
 ```
+
+**核心特性**：
+- 支持输入框输入SQL语句
+- 一键美化/格式化SQL
+- "喵喵"逐词解析，用比喻和例子帮助理解
+- 相关知识点卡片推荐
+- 一键收藏到学习笔记
 
 #### 模块二：场景练习场 🎯
 **入口位置**：首页卡片 + 导航栏
