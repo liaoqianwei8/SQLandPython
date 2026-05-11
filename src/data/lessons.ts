@@ -143,7 +143,7 @@ export const chapterLessons = [
           headers: ['运算符', '含义', '举例'],
           rows: [
             ['=', '等于', 'WHERE age = 3'],
-            ['!='或'<>', '不等于', 'WHERE age != 3'],
+            ['!= 或 <>', '不等于', 'WHERE age != 3'],
             ['>', '大于', 'WHERE age > 3'],
             ['<', '小于', 'WHERE age < 3'],
             ['>=', '大于等于', 'WHERE age >= 3'],
