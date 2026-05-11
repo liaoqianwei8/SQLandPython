@@ -215,7 +215,7 @@ AND status = 'paid';`,
         'order_date > \'2024-01-01\' - 筛选2024年1月1日之后的订单',
         'amount - 订单金额字段',
         '100 AND 1000 - 金额范围',
-        'status = \'paid\'' - 筛选已支付状态'
+        "status = 'paid' - 筛选已支付状态"
       ]
     },
     achievements: ['SQL小喵']
