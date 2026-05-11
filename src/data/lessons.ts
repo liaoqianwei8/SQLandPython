@@ -419,7 +419,7 @@ HAVING COUNT(*) > 10;`,
       explanation: [
         'customer_id - 按客户ID分组',
         "COUNT(*) - 筛选聚合结果",
-        '10' - 超过10笔订单'
+        "10 - 超过10笔订单"
       ]
     },
     achievements: ['SQL达人']
